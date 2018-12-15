@@ -2,8 +2,10 @@ package com.guzelsemme;
 
 import java.awt.Graphics;
 import java.awt.image.BufferStrategy;
+import java.awt.image.BufferedImage;
 
 import com.guzelsemme.display.Display;
+import com.guzelsemme.gfx.ImageLoader;
 
 public class Game implements Runnable {
 
@@ -17,6 +19,8 @@ public class Game implements Runnable {
     private boolean running = false;
     
     private Thread thread;
+    
+    private BufferedImage testImage;
 
     public Game(String title,int width,int height){
         this.width = width;
@@ -29,6 +33,7 @@ public class Game implements Runnable {
      */    
     private void init() {
     	display = new Display(title, width, height);
+    	testImage = ImageLoader.loadImage("/textures/photo.jpg");
     }
     
     @Override
@@ -51,9 +56,13 @@ public class Game implements Runnable {
 			return;
 		}
 		g = bs.getDrawGraphics();
+		// Clear the screen
+		g.clearRect(0, 0, width, height);
 		//Draw here
 		
-		g.fillRect(0, 0, 230, 40);
+		
+		g.drawImage(testImage,20,20,null);
+		
 		
 		//End Drawing
 		
