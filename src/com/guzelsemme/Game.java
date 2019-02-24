@@ -6,6 +6,7 @@ import java.awt.image.BufferedImage;
 
 import com.guzelsemme.display.Display;
 import com.guzelsemme.gfx.ImageLoader;
+import com.guzelsemme.gfx.SpriteSheet;
 
 public class Game implements Runnable {
 
@@ -21,6 +22,7 @@ public class Game implements Runnable {
     private Thread thread;
     
     private BufferedImage testImage;
+    private SpriteSheet sheet;
 
     public Game(String title,int width,int height){
         this.width = width;
@@ -34,6 +36,7 @@ public class Game implements Runnable {
     private void init() {
     	display = new Display(title, width, height);
     	testImage = ImageLoader.loadImage("/textures/photo.jpg");
+    	sheet = new SpriteSheet(testImage);
     }
     
     @Override
@@ -46,7 +49,7 @@ public class Game implements Runnable {
     	stop();
     }
 
-    /*
+    /**
      * render everything
      */
     private void render() {
@@ -61,7 +64,7 @@ public class Game implements Runnable {
 		//Draw here
 		
 		
-		g.drawImage(testImage,20,20,null);
+		g.drawImage(sheet.crop(0,0,32,32),20,20,null);
 		
 		
 		//End Drawing
@@ -69,7 +72,7 @@ public class Game implements Runnable {
 		bs.show();
 		g.dispose();
 	}
-    /*
+    /**
      * update all variables
      * scenes and everything
      */
@@ -78,6 +81,9 @@ public class Game implements Runnable {
 		
 	}
 
+	/**
+	 * Starting the game
+	 */
 	public synchronized void start(){
     	if(running)
     		return;
@@ -86,8 +92,11 @@ public class Game implements Runnable {
     	thread.start();
     	
     }
-    
-    public synchronized void stop(){
+
+	/**
+	 *  stopping the game
+	 */
+	public synchronized void stop(){
     	if(!running)
     		return;
     	running = false;
